@@ -1,0 +1,32 @@
+[[https://github.com/imgproxy/imgproxy][Imgproxy]] is a "fast and secure standalone server for resizing and converting remote images". It should normally be deployed behind a caching proxy or a CDN, and `docker-compose.yml` provides example of such a deployment behind a [[https://github.com/varnishcache/varnish-cache][Varnish]] cache server.
+
+Here is a simple workflow of using signed urls with =imgproxy=.
+
+For this demo you need to create an =.env= file containing server key and salt. These have to be random hex-encoded strings. You can easily generate such strings in ruby:
+
+#+begin_src ruby
+  require 'securerandom'
+  SecureRandom.hex(13)
+  # => 4a4c608197650d45d3b7b15c4f
+#+end_src
+
+Now you can run =docker-compose up= and access your server at: http://0.0.0.0:8080. Encoded urls can be generated in ruby using the same key and salt with the help of [[https://github.com/imgproxy/imgproxy.rb][imgproxy gem]]. For this example we'll resize codercat GitHub image and convert it to =webp= format.
+
+#+begin_src ruby
+  require 'imgproxy'
+  Imgproxy.configure do |conf|
+    conf.key = '4a4c608197650d45d3b7b15c4f'
+    conf.salt = 'e6ced7695c89aab8e23b5bf943'
+  end
+  b = Imgproxy::Builder.new(
+    width: 100,
+    height: 100,
+    resizing_type: :auto,
+    base64_encode_url: true,
+    format: 'webp'
+  )
+  url = "https://octodex.github.com/images/codercat.jpg"
+  b.url_for(url)
+#+end_src
+
+You can test resulting url on your local server: =http://0.0.0.0:8080/6CwHaj-VyyloNQfcjjXnQURrh5_Fcg6bfmOHrd_vQIE/rs:auto:100:100/aHR0cHM6Ly9vY3Rv/ZGV4LmdpdGh1Yi5j/b20vaW1hZ2VzL2Nv/ZGVyY2F0LmpwZw.webp=.

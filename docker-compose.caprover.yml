@@ -1,0 +1,36 @@
+# This docker-compose file allows running 'docker-compose up'
+# on caprover-enabled server
+# https://caprover.com/docs/docker-compose.html#alternative-approach
+version: '3.4'
+networks:
+  backend:
+  captain-overlay-network:
+    external: true
+services:
+  img:
+    image: darthsim/imgproxy    #  runs on 8080 by default
+    environment:
+      IMGPROXY_READ_TIMEOUT: 30
+      IMGPROXY_WRITE_TIMEOUT: 30
+      IMGPROXY_KEEP_ALIVE_TIMEOUT: 30
+      IMGPROXY_DOWNLOAD_TIMEOUT: 30
+      IMGPROXY_CACHE_CONTROL_PASSTHROUGH: 1
+    networks:
+      - backend
+  varnish:
+    image: varnish
+    volumes:
+      - ./varnish/default.vcl:/etc/varnish/default.vcl:ro
+    #  - ./varnish/data:/var/lib/varnish
+    # If we are using default memory storage, then set larger mem size
+    environment:
+      VARNISH_SIZE: 2G
+    # Alternatively, we can create a persistent file storage, for this we
+    # need to un-comment both '/varnish/data' volume above below command.
+    # command: |
+    #   varnishd -F -f /etc/varnish/default.vcl -a http=:80,HTTP -p feature=+http2 -s file,/var/lib/varnish/varnish_storage.bin,1G
+    ports:
+      - 8080:80
+    networks:
+      - backend
+      - captain-overlay-network

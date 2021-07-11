@@ -1,0 +1,24 @@
+version: '3.4'
+services:
+  img:
+    env_file:
+      - .env
+    image: darthsim/imgproxy    #  runs on 8080
+    environment:
+      IMGPROXY_READ_TIMEOUT: 30
+      IMGPROXY_WRITE_TIMEOUT: 30
+      IMGPROXY_KEEP_ALIVE_TIMEOUT: 30
+      IMGPROXY_DOWNLOAD_TIMEOUT: 30
+      IMGPROXY_CACHE_CONTROL_PASSTHROUGH: 1
+  varnish:
+    image: varnish
+    volumes:
+      - ./varnish/default.vcl:/etc/varnish/default.vcl:ro
+    #  - ./varnish/data:/var/lib/varnish
+    # If we are using default memory storage, then use larger mem size
+    environment:
+      VARNISH_SIZE: 2G
+    # command: |
+    #   varnishd -F -f /etc/varnish/default.vcl -a http=:80,HTTP -p feature=+http2 -s file,/var/lib/varnish/varnish_storage.bin,1G
+    ports:
+      - 8080:80
