@@ -8,6 +8,8 @@ networks:
     external: true
 services:
   img:
+    env_file:
+      - .env
     image: darthsim/imgproxy    #  runs on 8080 by default
     environment:
       IMGPROXY_READ_TIMEOUT: 30
