@@ -1,0 +1,20 @@
+version: '3.4'
+services:
+  img:
+    env_file:
+      - .env
+    image: darthsim/imgproxy    #  runs on 8080
+    environment:
+      IMGPROXY_READ_TIMEOUT: 30
+      IMGPROXY_WRITE_TIMEOUT: 30
+      IMGPROXY_KEEP_ALIVE_TIMEOUT: 30
+      IMGPROXY_DOWNLOAD_TIMEOUT: 30
+      IMGPROXY_CACHE_CONTROL_PASSTHROUGH: 1
+      IMGPROXY_PATH_PREFIX: /img
+  nginx:
+    image: nginx
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    command: [nginx-debug, '-g', 'daemon off;']
+    ports:
+      - 8080:80
