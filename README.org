@@ -14,19 +14,26 @@ Now you can run =docker-compose up= and access your server at: http://0.0.0.0:80
 
 #+begin_src ruby
   require 'imgproxy'
+  require 'dotenv'
+  Dotenv.load(".env")
+
   Imgproxy.configure do |conf|
-    conf.key = '4a4c608197650d45d3b7b15c4f'
-    conf.salt = 'e6ced7695c89aab8e23b5bf943'
+    conf.key = ENV['IMGPROXY_KEY']
+    conf.salt = ENV['IMGPROXY_SALT']
   end
   b = Imgproxy::Builder.new(
-    width: 100,
-    height: 100,
+    width: 200,
+    height: 200,
     resizing_type: :auto,
     base64_encode_url: true,
-    format: 'webp'
+    format: 'jpg'
   )
-  url = "https://octodex.github.com/images/codercat.jpg"
+  # url = "https://octodex.github.com/images/codercat.jpg"
+  url = "https://102922.selcdn.ru/nomenclature_images_test/1841598/d378c003-304e-490c-b861-3eb7c387d072.png"
   b.url_for(url)
 #+end_src
+
+#+RESULTS:
+: /-28aKLVKMu8x_90NzcijYFj2AObb562HmvET9sfhyXI/rs:auto:200:200/aHR0cHM6Ly8xMDI5/MjIuc2VsY2RuLnJ1/L25vbWVuY2xhdHVy/ZV9pbWFnZXNfdGVz/dC8xODQxNTk4L2Qz/NzhjMDAzLTMwNGUt/NDkwYy1iODYxLTNl/YjdjMzg3ZDA3Mi5w/bmc.webp
 
 You can test resulting url on your local server: =http://0.0.0.0:8080/6CwHaj-VyyloNQfcjjXnQURrh5_Fcg6bfmOHrd_vQIE/rs:auto:100:100/aHR0cHM6Ly9vY3Rv/ZGV4LmdpdGh1Yi5j/b20vaW1hZ2VzL2Nv/ZGVyY2F0LmpwZw.webp=.

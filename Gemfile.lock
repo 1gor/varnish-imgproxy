@@ -3,6 +3,7 @@ GEM
   specs:
     anyway_config (2.1.0)
       ruby-next-core (>= 0.11.0)
+    dotenv (2.7.6)
     imgproxy (2.0.0)
       anyway_config (>= 2.0.0)
     ruby-next-core (0.12.0)
@@ -11,6 +12,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  dotenv
   imgproxy
 
 BUNDLED WITH
