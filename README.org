@@ -1,4 +1,4 @@
-[[https://github.com/imgproxy/imgproxy][Imgproxy]] is a "fast and secure standalone server for resizing and converting remote images". It should normally be deployed behind a caching proxy or a CDN, and `docker-compose.yml` provides example of such a deployment behind a [[https://github.com/varnishcache/varnish-cache][Varnish]] cache server.
+[[https://github.com/imgproxy/imgproxy][Imgproxy]] is a "fast and secure standalone server for resizing and converting remote images". It should normally be deployed behind a caching proxy or a CDN, and =docker-compose.yml= provides an example of such a deployment behind a [[https://github.com/varnishcache/varnish-cache][Varnish]] cache server.
 
 Here is a simple workflow of using signed urls with =imgproxy=.
 
