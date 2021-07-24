@@ -22,8 +22,8 @@ Now you can run =docker-compose up= and access your server at: http://0.0.0.0:80
     conf.salt = ENV['IMGPROXY_SALT']
   end
   b = Imgproxy::Builder.new(
-    width: 200,
-    height: 200,
+    width: 100,
+    height: 100,
     resizing_type: :auto,
     base64_encode_url: true,
     format: 'webp'
@@ -34,6 +34,6 @@ Now you can run =docker-compose up= and access your server at: http://0.0.0.0:80
 #+end_src
 
 #+RESULTS:
-: /1fC5mPX2o11wlLo2sctRB1NdLE6xOfKd_huLxu0lUsU/rs:auto:200:200/aHR0cHM6Ly8xMDI5/MjIuc2VsY2RuLnJ1/L25vbWVuY2xhdHVy/ZV9pbWFnZXNfdGVz/dC8xODQxNTk4L2Qz/NzhjMDAzLTMwNGUt/NDkwYy1iODYxLTNl/YjdjMzg3ZDA3Mi5w/bmc.jpg
+: /-28aKLVKMu8x_90NzcijYFj2AObb562HmvET9sfhyXI/rs:auto:200:200/aHR0cHM6Ly8xMDI5/MjIuc2VsY2RuLnJ1/L25vbWVuY2xhdHVy/ZV9pbWFnZXNfdGVz/dC8xODQxNTk4L2Qz/NzhjMDAzLTMwNGUt/NDkwYy1iODYxLTNl/YjdjMzg3ZDA3Mi5w/bmc.webp
 
 You can test resulting url on your local server: =http://0.0.0.0:8080/6CwHaj-VyyloNQfcjjXnQURrh5_Fcg6bfmOHrd_vQIE/rs:auto:100:100/aHR0cHM6Ly9vY3Rv/ZGV4LmdpdGh1Yi5j/b20vaW1hZ2VzL2Nv/ZGVyY2F0LmpwZw.webp=.
